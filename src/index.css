@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .align-element {
+    @apply max-w-5xl mx-auto pl-3;
+  }
+}
+.btn1 {
+  width: 120px;
+  color: white;
+  border-radius: 50px;
+  background: #733ef8;
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btn1:hover {
+  width: 120px;
+  color: white;
+  border-radius: 50px;
+  background: rgb(188, 199, 243);
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btn2 {
+  width: 120px;
+  color: #733ef8;
+  border-radius: 50px;
+  background: rgb(188, 199, 243);
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btn3 {
+  width: 260px;
+  color: white;
+  border-radius: 50px;
+  background: rgb(166, 183, 251);
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+h4 {
+  color: rgb(108, 118, 158);
+}
+p {
+  color: rgb(108, 118, 158);
+}
+.btnt {
+  width: 260px;
+  color: white;
+  border-radius: 15px;
+  background: rgb(166, 183, 251);
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btnti {
+  width: 260px;
+  color: white;
+  border-radius: 15px;
+  background: rgb(248, 10, 145);
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btntt {
+  width: 260px;
+  color: white;
+  border-radius: 15px;
+  background: rgb(103, 103, 246);
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.btntw {
+  width: 260px;
+  color: white;
+  border-radius: 15px;
+  background: rgb(12, 205, 12);
+  height: 60px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.int {
+  border-radius: 70px;
+  border-color: rgb(103, 103, 246);
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin 20s linear infinite;
+}
+/* Example of a simple striped pattern */
+.bg-pattern {
+  background-image: url("https://cdn.myurls.co/packs/media/images/website/features/blob-3-ba1e3baf682ca49e31eb337cb83da983.svg");
+  background-size: cover; /* Ensures the SVG covers the entire container */
+  background-position: center; /* Centers the SVG within the container */
+  background-repeat: no-repeat; /* Prevents the SVG from repeating */
+  width: 100%; /* Ensures the background takes full width */
+  height: 100%; /* Ensures the background takes full height */
+}
+.lbd {
+  min-height: 75vh;
+}
+.br {
+  border-radius: 50%;
+  box-shadow: inset;
+}
+.lk {
+  width: 50px;
+  border: blue;
+}
+.e {
+  position: relative; /* Necessary for the ::after pseudo-element to be positioned correctly */
+  color: rgb(108, 118, 158);
+  text-decoration: none; /* Ensure there's no default underline */
+}
+.e:hover {
+  color: rgb(103, 103, 246);
+}
+.e::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px; /* Adjust thickness of the underline */
+  background-color: rgb(103, 103, 246); /* Custom color */
+  transition: width 0.5s ease-in-out;
+}
+.e:hover::after {
+  width: 100%;
+}
+
+/* Active link styles */
+.active {
+  color: rgb(103, 103, 246);
+}
