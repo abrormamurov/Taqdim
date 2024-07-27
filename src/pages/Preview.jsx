@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
-import UsernameInput from "../components/UsernameInput";
 import LinkPreview from "../components/LinkPreview";
-import {
-  FaUser,
-  FaChartLine,
-  FaUserFriends,
-  FaSignOutAlt,
-} from "react-icons/fa";
-import { MdPersonAdd } from "react-icons/md";
-import { AiOutlineSetting } from "react-icons/ai";
 import Drawer from "../components/Drawer";
 
 function Preview() {
@@ -38,12 +29,12 @@ function Preview() {
   }, []);
 
   return (
-    <div className="flex">
-      <div className="">
+    <div className="flex flex-col md:flex-row">
+      <div className="md:w-1/4">
         <Drawer />
       </div>
-      <div className="p-4 ml-96">
-        <nav className="flex gap-5 mt-5 mb-10 items-center justify-center font-bold text-xl">
+      <div className="p-4 md:ml-96 flex-1">
+        <nav className="flex flex-wrap gap-5 mt-5 mb-10 items-center  font-bold text-xl">
           <NavLink
             className={({ isActive }) =>
               isActive ? "text-blue-500" : "text-gray-500"
@@ -62,23 +53,23 @@ function Preview() {
           </NavLink>
         </nav>
 
-        <div className="flex-1 flex gap-8 items-center mt-36">
-          <div className="profile-pic-container br bg-slate-100 p-10 rounded-lg flex items-center justify-center">
+        <div className="flex flex-col md:flex-row items-center mt-10 md:mt-36 gap-8">
+          <div className="profile-pic-container bg-slate-100 p-10 rounded-lg flex items-center justify-center">
             {userData.image ? (
               <img
                 src={userData.image}
                 alt="Profile"
-                className="w-32 h-32 object-cover rounded-full"
+                className="w-32 h-32 md:w-32 md:h-32 object-cover rounded-full"
               />
             ) : (
-              <FaRegUser className="text-blue-600 w-32 h-32" />
+              <FaRegUser className="text-blue-600 w-32 h-32 md:w-32 md:h-32" />
             )}
           </div>
-          <div className="mt-4 text-center">
-            <h2 className="text-xl mb-2 font-bold">
+          <div className="mt-4 text-center md:text-left">
+            <h2 className="text-xl md:text-2xl mb-2 font-bold">
               {userData.displayName || "Name"}
             </h2>
-            <p className="flex items-center border-2 border-solid border-blue-600 p-2 rounded-3xl gap-1 text-blue-600">
+            <p className="flex items-center justify-center md:justify-start border-2 border-solid border-blue-600 p-2 rounded-3xl gap-1 text-blue-600">
               <IoLocationSharp />
               {userData.location || "Location"}
             </p>
@@ -88,8 +79,8 @@ function Preview() {
         <div className="mt-10">
           <LinkPreview links={links} />
         </div>
-        <div class="flex justify-center items-center mt-52 mb-10 ">
-          <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
+        <div className="flex  items-center mt-20 md:mt-52 mb-10">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
             TAQDIM.UZ
           </h2>
         </div>
