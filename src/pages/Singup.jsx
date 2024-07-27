@@ -29,9 +29,14 @@ const Singup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-8">
+    <div className="flex flex-col items-center justify-center  bg-gray-100 p-4 sm:p-8">
+      <div className="flex  items-center mt-20 md:mt-20 mb-10">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
+          TAQDIM.UZ
+        </h2>
+      </div>
       <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label

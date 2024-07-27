@@ -78,7 +78,7 @@ function Home() {
             Share more with your followers in a single click. Myurls makes it
             easy to link to all of your content in one place.
           </h4>
-          <Link to="#">
+          <Link to="/singup">
             <button className="btn3 hover:bg-indigo-500 hover:text-white     font-bold text-xl mb-2">
               Use Taqdim for Free
             </button>
