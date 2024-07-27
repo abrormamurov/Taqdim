@@ -16,9 +16,12 @@ function Home() {
   return (
     <div className="container mx-auto p-4 align-element">
       <nav className="flex justify-between items-center mt-5">
-        <div>
-          <h2>Taqdim.uz</h2>
+        <div class="flex justify-center items-center">
+          <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
+            TAQDIM.UZ
+          </h2>
         </div>
+
         <div className="hidden md:flex gap-5 items-center">
           <Link to="" className="hover:text-indigo-600">
             How It Works
@@ -109,14 +112,14 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="flex items-center flex-col mb-10 ">
+      {/* <div className="flex items-center flex-col mb-10 ">
         <h2 className="font-extrabold text-4xl text-neutral mb-3 ">
           Get your myurls handle
         </h2>
         <h4 className="mb-8">Enter your username below to claim your link.</h4>
         <Form />
-      </div>
-      <div className="flex  items-center justify-center  lbd ">
+      </div> */}
+      {/* <div className="flex  items-center justify-center  lbd ">
         <div className="text-center ">
           <h2 className="font-extrabold text-4xl text-neutral mb-3">
             Use Anywhere
@@ -129,8 +132,8 @@ function Home() {
         <div className="relative flex items-center justify-center w-full h-96 bg-pattern">
           <IconCircle />
         </div>
-      </div>
-      <div className="flex  items-center justify-center  lbd">
+      </div> */}
+      {/* <div className="flex  items-center justify-center  lbd">
         <div className="relative flex items-center justify-center w-full  bg-pattern">
           <IconCircle />
         </div>
@@ -143,8 +146,8 @@ function Home() {
             background images, and more.
           </h4>
         </div>
-      </div>
-      <div className="flex  items-center justify-center  lbd ">
+      </div> */}
+      {/* <div className="flex  items-center justify-center  lbd ">
         <div className="text-center ">
           <h2 className="font-extrabold text-4xl text-neutral mb-3">
             Get Real-Time Analytics
@@ -157,7 +160,7 @@ function Home() {
         <div className="relative flex items-center justify-center w-full h-96 bg-pattern">
           <IconCircle />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

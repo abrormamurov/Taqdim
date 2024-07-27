@@ -7,6 +7,10 @@ import Login from "./pages/Login";
 import AboutYou from "./pages/AboutYou";
 import Preview from "./pages/Preview";
 import Edit from "./pages/Edit";
+import MyProfile from "./components/MyProfile";
+import SignOut from "./components/SignOut";
+import MyAccount from "./components/MyAccount";
+import Create from "./components/Create";
 
 function App() {
   const routes = createBrowserRouter([
@@ -20,8 +24,24 @@ function App() {
           element: <Preview />,
         },
         {
+          path: "create",
+          element: <Create />,
+        },
+        {
           path: "edit",
           element: <Edit />,
+        },
+        {
+          path: "myaccount",
+          element: <MyAccount />,
+        },
+        {
+          path: "signout",
+          element: <SignOut />,
+        },
+        {
+          path: "myprofile",
+          element: <MyProfile />,
         },
         {
           path: "singup",

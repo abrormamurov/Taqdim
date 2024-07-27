@@ -6,6 +6,22 @@
     @apply max-w-5xl mx-auto pl-3;
   }
 }
+/* .drawer-side {
+  transition: all 1s ease-in-out;
+}
+
+.drawer-side:hover {
+  width: 300px;
+  box-shadow: none;
+}
+
+.profile-pic-container {
+  transition: all 0.3s ease-in-out;
+}
+
+.profile-pic-container:hover {
+  box-shadow: none;
+} */
 .btn1 {
   width: 120px;
   color: white;

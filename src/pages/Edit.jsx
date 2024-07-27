@@ -3,7 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { MdDownloading } from "react-icons/md";
 import AddLink from "./AddLink";
-
+import { Link } from "react-router-dom";
+import Drawer from "../components/Drawer";
 function Edit() {
   const [displayName, setDisplayName] = useState("");
   const [location, setLocation] = useState("");
@@ -42,113 +43,123 @@ function Edit() {
   };
 
   return (
-    <div className="p-4 sm:p-8">
-      <nav className="flex gap-5 mt-5 mb-10 items-center justify-center font-bold text-xl">
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-gray-500"
-          }
-          to="/preview"
-        >
-          Preview
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-gray-500"
-          }
-          to="/edit"
-        >
-          Edit
-        </NavLink>
-      </nav>
-      <div className="flex flex-col items-center">
-        <div className="relative shadow-2xl br bg-slate-100 w-32 h-32 sm:w-52 sm:h-52 flex items-center justify-center rounded-lg">
-          {image ? (
-            <img
-              src={image}
-              alt="Uploaded"
-              className="w-full h-full object-cover rounded-lg shadow-md"
-            />
-          ) : (
-            <FaRegUser className="text-blue-600 w-20 h-20 sm:w-32 sm:h-32" />
-          )}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            ref={fileInputRef} // Referensiya qo'shish
-          />
-          <div
-            className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
-            onClick={handleImageClick} // Click hodisasi
+    <div className="flex ">
+      <div className="">
+        <Drawer />
+      </div>{" "}
+      <div className="p-4 sm:p-8 w-full align-element">
+        <nav className="flex gap-5 mt-5 mb-10 items-center justify-center font-bold text-xl">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-blue-500" : "text-gray-500"
+            }
+            to="/preview"
           >
-            <MdDownloading className="w-20 h-20 sm:w-32 sm:h-32 text-gray-300" />
+            Preview
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-blue-500" : "text-gray-500"
+            }
+            to="/edit"
+          >
+            Edit
+          </NavLink>
+        </nav>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
+          <div className="relative shadow-2xl br bg-slate-100 w-32 h-32 sm:w-52 sm:h-52 flex items-center justify-center rounded-lg">
+            {image ? (
+              <img
+                src={image}
+                alt="Uploaded"
+                className="w-full h-full object-cover rounded-lg shadow-md"
+              />
+            ) : (
+              <FaRegUser className="text-blue-600 w-20 h-20 sm:w-32 sm:h-32" />
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              ref={fileInputRef} // Referensiya qo'shish
+            />
+            <div
+              className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+              onClick={handleImageClick} // Click hodisasi
+            >
+              <MdDownloading className="w-20 h-20 sm:w-32 sm:h-32 text-gray-300" />
+            </div>
+          </div>
+          <div className="w-full max-w-md mt-8 sm:mt-0">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label
+                  htmlFor="displayName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Display Name
+                </label>
+                <input
+                  type="text"
+                  id="displayName"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  placeholder="Enter display name"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="location"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Location
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Enter location"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="bio"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Bio
+                </label>
+                <textarea
+                  id="bio"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Enter bio"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  rows="4"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                Save Changes
+              </button>
+            </form>
           </div>
         </div>
-        <div className="w-full max-w-md mt-8">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label
-                htmlFor="displayName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Display Name
-              </label>
-              <input
-                type="text"
-                id="displayName"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="Enter display name"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="location"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Location
-              </label>
-              <input
-                type="text"
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Enter location"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="bio"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Bio
-              </label>
-              <textarea
-                id="bio"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                placeholder="Enter bio"
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                rows="4"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              Save Changes
-            </button>
-          </form>
+        <AddLink />
+        <div class="flex justify-center items-center mt-32">
+          <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
+            TAQDIM.UZ
+          </h2>
         </div>
       </div>
-      <AddLink />
     </div>
   );
 }
