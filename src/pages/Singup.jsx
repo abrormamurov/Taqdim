@@ -8,7 +8,7 @@ const Singup = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let formErrors = {};
@@ -19,18 +19,41 @@ const Singup = () => {
 
     if (Object.keys(formErrors).length === 0) {
       setErrors({});
-      // Simulate a successful signup and navigate to the next page
-      // Replace this with your actual signup logic
-      console.log({ email, password, username });
-      navigate("/aboutyou");
+
+      try {
+        const response = await fetch(
+          "https://vildan.pythonanywhere.com/api/v1/user/register/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password, username }),
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Signup successful:", data);
+          // Navigate to the next page on successful signup
+          navigate("/aboutyou");
+        } else {
+          const data = await response.json();
+          console.log("Signup error response:", data);
+          setErrors({ general: data.message || "An error occurred" });
+        }
+      } catch (error) {
+        console.error("Signup request error:", error);
+        setErrors({ general: "An error occurred. Please try again later." });
+      }
     } else {
       setErrors(formErrors);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-gray-100 p-4 sm:p-8">
-      <div className="flex  items-center mt-20 md:mt-20 mb-10">
+    <div className="flex flex-col items-center justify-center bg-gray-100 p-4 sm:p-8">
+      <div className="flex items-center mt-20 md:mt-20 mb-10">
         <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
           TAQDIM.UZ
         </h2>

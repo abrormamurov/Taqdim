@@ -51,6 +51,7 @@ function App() {
           path: "login",
           element: <Login />,
         },
+
         {
           path: "aboutyou",
           element: <AboutYou />,

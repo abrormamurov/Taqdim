@@ -1,52 +1,103 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { MdDownloading } from "react-icons/md";
 import AddLink from "./AddLink";
-import { Link } from "react-router-dom";
 import Drawer from "../components/Drawer";
+import axios from "axios";
+
 function Edit() {
-  const [displayName, setDisplayName] = useState("");
+  const [full_name, setFullName] = useState("");
   const [location, setLocation] = useState("");
   const [bio, setBio] = useState("");
-  const [image, setImage] = useState(null); // Rasm holati
+  const [telephone, setTelephone] = useState("");
 
-  const fileInputRef = useRef(null); // File inputni referensiya qilish uchun
-  const navigate = useNavigate(); // Redirect uchun
+  const [image, setImage] = useState(null);
+  const [profileCompleted, setProfileCompleted] = useState(false);
+
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    setFullName(userData.full_name || "");
+    setLocation(userData.location || "");
+    setBio(userData.bio || "");
+    setBio(userData.bio || "");
+
+    setTelephone(userData.telephone || "");
+
+    setImage(userData.image || null);
+
+    // Check if the profile is completed
+    if (
+      userData.full_name &&
+      userData.location &&
+      userData.bio &&
+      userData.telephone
+    ) {
+      setProfileCompleted(true);
+      navigate("/preview");
+    }
+  }, [navigate]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result); // Rasm ma'lumotlarini holatga saqlash
-      };
-      reader.readAsDataURL(file); // Faylni o'qish
+      reader.onloadend = () => setImage(reader.result);
+      reader.readAsDataURL(file);
     }
   };
 
   const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // File input elementiga bosish
+    fileInputRef.current.click();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    try {
+      const userData = { full_name, telephone, location, bio, image };
+      console.log("Sending userData:", userData);
+      const response = await axios.post(
+        "https://vildan.pythonanywhere.com/api/v1/user/profile/create/",
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Ensure the token is prefixed with "Bearer "
+          },
+        }
+      );
+      console.log("Profile saved:", response.data);
+
+      // Save user data to localStorage
+      localStorage.setItem("userData", JSON.stringify(userData));
+
+      // Retrieve and log data from localStorage
+      const storedUserData = localStorage.getItem("userData");
+      console.log("Stored userData:", JSON.parse(storedUserData));
+
+      navigate("/preview");
+    } catch (error) {
+      console.error(
+        "Error saving profile:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Ma'lumotlarni saqlash
-    const userData = { displayName, location, bio, image };
-    localStorage.setItem("userData", JSON.stringify(userData));
-
-    // Preview sahifaga o'tish
-    navigate("/preview");
-  };
-
   return (
-    <div className="flex ">
+    <div className="flex">
       <div className="">
         <Drawer />
-      </div>{" "}
+      </div>
       <div className="p-4 sm:p-8 w-full align-element">
         <nav className="flex gap-5 mt-5 mb-10 items-center justify-center font-bold text-xl">
           <NavLink
@@ -79,85 +130,68 @@ function Edit() {
             )}
             <input
               type="file"
-              accept="image/*"
+              ref={fileInputRef}
+              className="hidden"
               onChange={handleImageChange}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              ref={fileInputRef} // Referensiya qo'shish
             />
-            <div
-              className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
-              onClick={handleImageClick} // Click hodisasi
+            <button
+              type="button"
+              onClick={handleImageClick}
+              className="absolute bottom-1 right-1 bg-blue-500 text-white px-2 py-1 rounded-md text-xs"
             >
-              <MdDownloading className="w-20 h-20 sm:w-32 sm:h-32 text-gray-300" />
+              Change
+            </button>
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-lg flex flex-col gap-4"
+          >
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Full Name</label>
+              <input
+                type="text"
+                value={full_name}
+                onChange={(e) => setFullName(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2"
+                placeholder="Enter your full name"
+              />
             </div>
-          </div>
-          <div className="w-full max-w-md mt-8 sm:mt-0">
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label
-                  htmlFor="displayName"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Display Name
-                </label>
-                <input
-                  type="text"
-                  id="displayName"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Enter display name"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="location"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Enter location"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="bio"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Bio
-                </label>
-                <textarea
-                  id="bio"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  placeholder="Enter bio"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  rows="4"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Save Changes
-              </button>
-            </form>
-          </div>
-        </div>
-        <AddLink />
-        <div class="flex justify-center items-center mt-32">
-          <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
-            TAQDIM.UZ
-          </h2>
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Telephone</label>
+              <input
+                type="text"
+                value={telephone}
+                onChange={(e) => setTelephone(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2"
+                placeholder="Enter your full name"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Location</label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2"
+                placeholder="Enter your location"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="font-semibold">Bio</label>
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-2"
+                placeholder="Enter your bio"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700"
+            >
+              Save Changes
+            </button>
+          </form>
         </div>
       </div>
     </div>

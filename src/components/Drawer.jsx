@@ -1,18 +1,24 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiUser, FiSettings, FiLogOut, FiPlus } from "react-icons/fi";
 
 const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [showNewProfile, setShowNewProfile] = useState(false);
+  const [accounts, setAccounts] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedAccounts = JSON.parse(localStorage.getItem("accounts")) || [];
+    setAccounts(savedAccounts);
+  }, []);
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
 
-  const toggleNewProfile = () => {
-    setShowNewProfile(!showNewProfile);
+  const handleAccountClick = (username) => {
+    navigate(`/preview/${username}`);
   };
 
   const isActive = (path) => {
@@ -22,16 +28,14 @@ const Drawer = () => {
   };
 
   return (
-    <div className="">
-      {/* Button to toggle the drawer */}
+    <div>
       <button
         onClick={toggleDrawer}
-        className=" text-slate-500 w-7 h-7 fixed top-4 left-4 z-50 lg:hidden"
+        className="text-slate-500 w-7 h-7 fixed top-4 left-4 z-50 lg:hidden"
       >
         ☰
       </button>
 
-      {/* Drawer */}
       <div
         className={`fixed inset-0 lg:inset-auto lg:left-0 lg:top-0 lg:h-screen bg-gray-800 bg-opacity-75 transition-transform duration-300 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -50,34 +54,30 @@ const Drawer = () => {
               <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-600">
                 TAQDIM.UZ
               </h2>
-              {/* Display Profile Name */}
             </div>
 
             <ul className="space-y-2 mt-4">
-              <li>
-                <Link>
-                  {" "}
+              {accounts.map((account) => (
+                <li key={account.username}>
                   <button
-                    onClick={toggleNewProfile}
-                    className="flex w-full ml-3 items-center p-4 hover:bg-blue-500"
+                    onClick={() => handleAccountClick(account.username)}
+                    className={`flex w-full ml-3 items-center p-4 hover:bg-blue-500 ${isActive(
+                      `/preview/${account.username}`
+                    )}`}
                   >
-                    Username
+                    {account.username}
                   </button>
+                </li>
+              ))}
+              <li>
+                <Link
+                  to="/create"
+                  className="flex w-full ml-3 items-center p-4 hover:bg-blue-500"
+                >
+                  <FiPlus className="mr-2" />
+                  New Profile
                 </Link>
               </li>
-              {showNewProfile && (
-                <div className="mt-4 px-4 flex">
-                  {/* Add form or link for new profile here */}
-                  <Link
-                    to="/create"
-                    className="flex w-full bg-slate-300  p-4 hover:bg-blue-500 items-center "
-                  >
-                    <FiPlus className="mr-2" />
-                    New Profile
-                  </Link>
-                  <hr />
-                </div>
-              )}
               <li>
                 <Link
                   to="/preview"
